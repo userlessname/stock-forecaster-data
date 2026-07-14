@@ -1,0 +1,159 @@
+name: Daily Market Scanner & AI Forecaster
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: 'Force execution (skip market open checks)'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout Private Backend
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up uv & Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: "**/uv.lock"
+
+      - name: Check US Market Status
+        id: check
+        env:
+          FORCE_RUN: ${{ github.event.inputs.force_run }}
+        run: |
+          python backend/check_market.py --force "${FORCE_RUN:-false}" --strict
+
+      - name: Restore Python Virtual Environment
+        if: steps.check.outputs.should_run == 'true'
+        id: restore-venv
+        uses: actions/cache/restore@v4
+        with:
+          path: backend/.venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('backend/uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-
+
+      - name: Restore TA-Lib C Library
+        if: steps.check.outputs.should_run == 'true'
+        id: restore-ta-lib
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/ta-lib-install
+          key: ${{ runner.os }}-ta-lib-v2
+
+      - name: Install TA-Lib
+        if: steps.check.outputs.should_run == 'true' && steps.restore-ta-lib.outputs.cache-hit != 'true'
+        run: |
+          wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
+          tar -xzf ta-lib-0.4.0-src.tar.gz
+          cd ta-lib/
+          ./configure --prefix=$HOME/ta-lib-install  # Local user prefix, no root required
+          make
+          make install  # Installs locally, no sudo required
+          cd ..
+          rm -rf ta-lib ta-lib-0.4.0-src.tar.gz
+
+      - name: Save TA-Lib C Library Cache
+        if: steps.check.outputs.should_run == 'true' && steps.restore-ta-lib.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/ta-lib-install
+          key: ${{ runner.os }}-ta-lib-v2
+
+      - name: Sync Python Dependencies
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          unset VIRTUAL_ENV
+          export TA_INCLUDE_PATH="$HOME/ta-lib-install/include"
+          export TA_LIBRARY_PATH="$HOME/ta-lib-install/lib"
+          export LD_LIBRARY_PATH="$HOME/ta-lib-install/lib"
+          uv sync --project backend
+
+      - name: Save Python Virtual Environment Cache
+        if: steps.check.outputs.should_run == 'true' && steps.restore-venv.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: backend/.venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('backend/uv.lock') }}
+
+      - name: Restore Hugging Face Models
+        if: steps.check.outputs.should_run == 'true'
+        id: restore-hf-models
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-models-v2
+          restore-keys: |
+            ${{ runner.os }}-hf-models-
+
+      - name: Pre-download Hugging Face Models
+        if: steps.check.outputs.should_run == 'true' && steps.restore-hf-models.outputs.cache-hit != 'true'
+        run: |
+          unset VIRTUAL_ENV
+          export TA_INCLUDE_PATH="$HOME/ta-lib-install/include"
+          export TA_LIBRARY_PATH="$HOME/ta-lib-install/lib"
+          export LD_LIBRARY_PATH="$HOME/ta-lib-install/lib"
+          uv run --project backend python -c "
+          import timesfm
+          timesfm.TimesFM_2p5_200M_torch.from_pretrained('google/timesfm-2.5-200m-pytorch')
+          from transformers import AutoTokenizer, AutoModelForSequenceClassification
+          AutoTokenizer.from_pretrained('ProsusAI/finbert')
+          AutoModelForSequenceClassification.from_pretrained('ProsusAI/finbert')
+          "
+
+      - name: Save Hugging Face Models Cache
+        if: steps.check.outputs.should_run == 'true' && steps.restore-hf-models.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-models-v2
+
+      - name: Run Market Scan & Export to JSON
+        if: steps.check.outputs.should_run == 'true'
+        env:
+          HF_HUB_DISABLE_SYMLINKS_WARNING: '1'
+          HF_XET_HIGH_PERFORMANCE: '1'  # Activates the Rust hf-transfer parallel downloader
+          PYTHONUNBUFFERED: '1'
+          # Thread pool optimizations to prevent PyTorch CPU thread thrashing
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '2'
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          unset VIRTUAL_ENV
+          # Dynamically export path variables to prevent hardcoding /home/runner
+          export TA_INCLUDE_PATH="$HOME/ta-lib-install/include"
+          export TA_LIBRARY_PATH="$HOME/ta-lib-install/lib"
+          export LD_LIBRARY_PATH="$HOME/ta-lib-install/lib"
+          
+          # uv run automatically handles venv creation, dependency compilation, and execution using uv.lock
+          uv run --project backend python backend/run_scanner.py --export-json --mode ${{ steps.check.outputs.scan_mode }}
+
+      - name: Deploy to GitHub Pages
+        if: steps.check.outputs.should_run == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.API_TOKEN_GITHUB }}
+          external_repository: userlessname/stock-forecaster-data
+          publish_dir: ./backend/api
+          publish_branch: gh-pages
+          force_orphan: false
+          keep_files: |
+            live_prices.json
+            .nojekyll

@@ -1,0 +1,80 @@
+name: Fast Live Prices Update
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: 'Force execution (skip validations)'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Private Backend
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up uv & Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.12'
+          enable-cache: true
+
+      - name: Check US Market Status
+        id: check
+        env:
+          FORCE_RUN: ${{ github.event.inputs.force_run }}
+        run: |
+          python backend/check_market.py --force "${FORCE_RUN:-false}" --strict
+
+      - name: Restore Lightweight Python Virtual Environment
+        if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
+        id: restore-venv
+        uses: actions/cache/restore@v4
+        with:
+          path: backend/.venv-prices
+          key: ${{ runner.os }}-venv-prices-v1
+          restore-keys: |
+            ${{ runner.os }}-venv-prices-
+
+      - name: Install Lightweight Dependencies
+        if: (steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only') && steps.restore-venv.outputs.cache-hit != 'true'
+        run: |
+          uv venv backend/.venv-prices
+          uv pip install --python backend/.venv-prices httpx yfinance pandas
+
+      - name: Save Lightweight Python Virtual Environment Cache
+        if: (steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only') && steps.restore-venv.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: backend/.venv-prices
+          key: ${{ runner.os }}-venv-prices-v1
+
+      - name: Run Live Prices Fetcher
+        if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          backend/.venv-prices/bin/python backend/update_prices.py
+
+      - name: Deploy live_prices.json to GitHub Pages
+        if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.API_TOKEN_GITHUB }}
+          external_repository: userlessname/stock-forecaster-data
+          publish_dir: ./backend/api
+          publish_branch: gh-pages
+          force_orphan: false
+          keep_files: true
