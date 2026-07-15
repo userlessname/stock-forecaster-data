@@ -151,7 +151,7 @@ jobs:
         if: steps.check.outputs.should_run == 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.API_TOKEN_GITHUB }}
+          personal_token: ${{ secrets.PRIVATE_REPO_PAT }}
           external_repository: userlessname/stock-forecaster-data
           publish_dir: ./backend/api
           publish_branch: gh-pages
