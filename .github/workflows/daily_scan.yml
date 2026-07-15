@@ -22,6 +22,8 @@ jobs:
       - name: Checkout Private Backend
         uses: actions/checkout@v4
         with:
+          repository: userlessname/stock-forecaster-app
+          token: ${{ secrets.PRIVATE_REPO_PAT }}
           fetch-depth: 1
 
       - name: Set up uv & Python
