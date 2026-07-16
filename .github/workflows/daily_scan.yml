@@ -135,8 +135,6 @@ jobs:
           OMP_NUM_THREADS: '2'
           MKL_NUM_THREADS: '2'
           OPENBLAS_NUM_THREADS: '2'
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           unset VIRTUAL_ENV
           # Dynamically export path variables to prevent hardcoding /home/runner

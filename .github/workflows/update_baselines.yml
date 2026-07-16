@@ -44,9 +44,6 @@ jobs:
             ${{ runner.os }}-uv-
 
       - name: Run Baseline Generator
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           uv run --project backend python backend/research/generate_sec_baselines.py
 
