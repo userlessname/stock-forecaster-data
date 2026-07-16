@@ -19,6 +19,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      - name: Checkout Public Data Repo (for backend_files.txt)
+        uses: actions/checkout@v4
+        
       - name: Fetch Private Backend via Raw CDN (Ultimate Bypass)
         run: |
           mkdir -p backend
