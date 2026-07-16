@@ -28,8 +28,8 @@ jobs:
           
           # 1. Download the list of files dynamically from the private repo
           curl -s -f -H "Authorization: token ${{ secrets.PRIVATE_REPO_PAT }}" \
-               -L "https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/backend_files.txt" \
-               -o backend_files.txt
+               -L "https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/backend/backend_files.txt" \
+               -o backend/backend_files.txt
           
           # 2. Read file list and download them from CDN
           while IFS= read -r filepath; do
@@ -40,9 +40,9 @@ jobs:
             curl -s -f -H "Authorization: token ${{ secrets.PRIVATE_REPO_PAT }}" \
                  -L "https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/$filepath" \
                  -o "$filepath" || echo "Failed to download $filepath (Might be a local unpushed file or deleted)"
-          done < backend_files.txt
+          done < backend/backend_files.txt
           
-          rm -f backend_files.txt
+          rm -f backend/backend_files.txt
           echo "Successfully fetched backend files via CDN!"
 
       - name: Set up uv & Python
