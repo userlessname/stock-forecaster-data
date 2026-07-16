@@ -19,12 +19,16 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout Private Backend
-        uses: actions/checkout@v4
-        with:
-          repository: userlessname/stock-forecaster-app
-          token: ${{ secrets.PRIVATE_REPO_PAT }}
-          fetch-depth: 1
+      - name: Download Private Backend (Bypass Git 500 Error)
+        run: |
+          curl -H "Authorization: token ${{ secrets.PRIVATE_REPO_PAT }}" \
+               -L https://api.github.com/repos/userlessname/stock-forecaster-app/tarball/main \
+               -o repo.tar.gz
+          mkdir -p stock-forecaster-app
+          tar -xzf repo.tar.gz -C stock-forecaster-app --strip-components=1
+          # Move files to root to match previous checkout behavior
+          mv stock-forecaster-app/* .
+          rm -rf stock-forecaster-app repo.tar.gz
 
       - name: Set up uv & Python
         uses: astral-sh/setup-uv@v5
