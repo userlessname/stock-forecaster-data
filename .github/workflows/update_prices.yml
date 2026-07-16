@@ -45,7 +45,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: backend/.venv-prices
-          key: ${{ runner.os }}-venv-prices-v1
+          key: ${{ runner.os }}-venv-prices-v3
           restore-keys: |
             ${{ runner.os }}-venv-prices-
 
@@ -53,20 +53,17 @@ jobs:
         if: (steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only') && steps.restore-venv.outputs.cache-hit != 'true'
         run: |
           uv venv backend/.venv-prices
-          uv pip install --python backend/.venv-prices httpx yfinance pandas
+          uv pip install --python backend/.venv-prices httpx yfinance pandas lxml html5lib beautifulsoup4
 
       - name: Save Lightweight Python Virtual Environment Cache
         if: (steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only') && steps.restore-venv.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: backend/.venv-prices
-          key: ${{ runner.os }}-venv-prices-v1
+          key: ${{ runner.os }}-venv-prices-v3
 
       - name: Run Live Prices Fetcher
         if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           backend/.venv-prices/bin/python backend/update_prices.py
 
