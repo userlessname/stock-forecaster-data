@@ -265,5 +265,5 @@ jobs:
           external_repository: userlessname/stock-forecaster-data
           publish_dir: ./backend/api
           publish_branch: gh-pages
-          force_orphan: true
+          force_orphan: false
           keep_files: false
