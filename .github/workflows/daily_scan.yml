@@ -166,6 +166,8 @@ jobs:
 
       - name: Pre-download Hugging Face Models
         if: steps.check.outputs.should_run == 'true'
+        env:
+          HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
         run: |
           unset VIRTUAL_ENV
           export TA_INCLUDE_PATH="$HOME/ta-lib-install/include"
@@ -190,6 +192,7 @@ jobs:
         if: steps.check.outputs.should_run == 'true'
         env:
           HF_HUB_DISABLE_SYMLINKS_WARNING: '1'
+          HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
           HF_HUB_ENABLE_HF_TRANSFER: '1'  # Activates the Rust hf-transfer parallel downloader
           HF_HUB_OFFLINE: '1'             # Isolates scan execution from HuggingFace outages/network queries
           PYTHONUNBUFFERED: '1'
