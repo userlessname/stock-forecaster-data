@@ -125,12 +125,7 @@ jobs:
           path: backend/.venv-prices
           key: ${{ runner.os }}-venv-prices-v3
 
-      - name: Fetch Latest Metadata from gh-pages branch (Zero Latency)
-        if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
-        run: |
-          git fetch origin gh-pages:gh-pages --depth=1 --force || echo "gh-pages branch not found or empty"
-          mkdir -p backend/api
-          git show gh-pages:metadata.json > backend/api/metadata.json || echo "No existing metadata.json on gh-pages"
+
 
       - name: Run Live Prices Fetcher
         if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
