@@ -38,6 +38,17 @@ jobs:
           df -h | grep -E '^Filesystem|/$' || true
           echo "========================================================"
 
+      - name: Detect System CPU Cores
+        run: |
+          CORES=$(nproc 2>/dev/null | tr -d '[:space:]' || echo 2)
+          case "$CORES" in
+            *[!0-9]*) CORES=2 ;;
+            "") CORES=2 ;;
+            *) ;;
+          esac
+          echo "DETECTED_CORES=$CORES" >> $GITHUB_ENV
+          echo "System has $CORES CPU cores. Configuring thread limits accordingly."
+
       - name: Checkout Public Data Repo (for backend_files.txt)
         uses: actions/checkout@v4
         
@@ -65,8 +76,13 @@ jobs:
               except Exception as e:
                   print(f'Failed to download {filepath}: {e}')
                   
-          print(f'Downloading {len(files)} files in parallel...')
-          with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+          try:
+              cores = int(os.environ.get('DETECTED_CORES', '2'))
+          except Exception:
+              cores = 2
+          workers = min(cores * 10, 40)
+          print(f'Downloading {len(files)} files in parallel using {workers} workers...')
+          with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
               executor.map(download_file, files)
           print('Successfully fetched all backend files!')
           "

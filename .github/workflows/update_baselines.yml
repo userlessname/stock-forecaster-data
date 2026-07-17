@@ -41,6 +41,17 @@ jobs:
           df -h | grep -E '^Filesystem|/$' || true
           echo "========================================================"
 
+      - name: Detect System CPU Cores
+        run: |
+          CORES=$(nproc 2>/dev/null | tr -d '[:space:]' || echo 2)
+          case "$CORES" in
+            *[!0-9]*) CORES=2 ;;
+            "") CORES=2 ;;
+            *) ;;
+          esac
+          echo "DETECTED_CORES=$CORES" >> $GITHUB_ENV
+          echo "System has $CORES CPU cores. Configuring thread limits accordingly."
+
       - name: Checkout Private Backend
         uses: actions/checkout@v4
         with:
