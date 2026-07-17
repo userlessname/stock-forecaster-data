@@ -186,14 +186,6 @@ jobs:
           path: ~/.cache/huggingface
           key: ${{ runner.os }}-hf-models-v2
 
-      - name: Fetch Latest Metadata from gh-pages branch (Zero Latency)
-        if: steps.check.outputs.should_run == 'true'
-        run: |
-          git fetch origin gh-pages:gh-pages --depth=1 --force || echo "gh-pages branch not found or empty"
-          mkdir -p backend/api
-          git show gh-pages:metadata.json > backend/api/metadata.json || echo "No existing metadata.json on gh-pages"
-          git show gh-pages:live_prices.json > backend/api/live_prices.json || echo "No existing live_prices.json on gh-pages"
-
       - name: Run Market Scan & Export to JSON
         if: steps.check.outputs.should_run == 'true'
         env:
@@ -215,6 +207,56 @@ jobs:
           # uv run automatically handles venv creation, dependency compilation, and execution using uv.lock
           uv run --project backend python backend/run_scanner.py --export-json --mode ${{ steps.check.outputs.scan_mode }}
 
+      - name: Fetch Latest Files from gh-pages
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          git fetch origin gh-pages:gh-pages --depth=1 --force || echo "gh-pages branch not found or empty"
+          mkdir -p backend/api
+          if git rev-parse --verify gh-pages >/dev/null 2>&1; then
+            git show gh-pages:metadata.json > backend/temp_metadata.json || echo "No existing metadata.json on gh-pages"
+            git show gh-pages:live_prices.json > backend/api/live_prices.json || echo "[]" > backend/api/live_prices.json
+          else
+            echo "[WARNING] gh-pages reference not found. Creating default empty states."
+            echo "[]" > backend/api/live_prices.json
+          fi
+
+      - name: Merge Metadata Timestamps
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          python << 'EOF'
+          import os, json
+          fetched_path = 'backend/temp_metadata.json'
+          generated_path = 'backend/api/metadata.json'
+          try:
+              # os.path.getsize(fetched_path) > 0 check avoids parsing empty 0-byte cold start metadata files
+              if os.path.exists(fetched_path) and os.path.getsize(fetched_path) > 0 and os.path.exists(generated_path):
+                  with open(fetched_path, 'r', encoding='utf-8') as f:
+                      fetched = json.load(f)
+                  with open(generated_path, 'r', encoding='utf-8') as f:
+                      generated = json.load(f)
+                  
+                  # 1. Inject price update timestamp fields from fetched CDN metadata
+                  generated['last_price_update_timestamp'] = fetched.get('last_price_update_timestamp', 0)
+                  generated['last_price_update_ny_time'] = fetched.get('last_price_update_ny_time', '')
+                  
+                  # 2. Preserve manual admin controls & database hash verification fields
+                  if 'min_supported_version' in fetched:
+                      generated['min_supported_version'] = fetched['min_supported_version']
+                  if 'force_update_url' in fetched:
+                      generated['force_update_url'] = fetched['force_update_url']
+                  if 'database_sha256' in fetched:
+                      generated['database_sha256'] = fetched['database_sha256']
+                  
+                  # 3. Compact write utilizing separators to match write_json_atomically standard and optimize bandwidth
+                  with open(generated_path, 'w', encoding='utf-8') as f:
+                      json.dump(generated, f, separators=(',', ':'))
+                  print('[SUCCESS] Merged scan and pricing metadata.')
+              else:
+                  print('[WARNING] Missing or empty metadata files for merge. Using generated metadata.')
+          except Exception as e:
+              print(f'[ERROR] Failed to merge metadata ({e}). Using generated metadata.')
+          EOF
+
       - name: Deploy to GitHub Pages
         if: steps.check.outputs.should_run == 'true'
         uses: peaceiris/actions-gh-pages@v4
@@ -224,4 +266,4 @@ jobs:
           publish_dir: ./backend/api
           publish_branch: gh-pages
           force_orphan: true
-          keep_files: true
+          keep_files: false
