@@ -19,6 +19,25 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      - name: Print Runner System Specifications
+        run: |
+          echo "========================================================"
+          echo "              RUNNER SYSTEM SPECIFICATIONS"
+          echo "========================================================"
+          echo "OS Details:"
+          uname -a
+          cat /etc/os-release | grep -E '^PRETTY_NAME=|^VERSION=' || true
+          echo "--------------------------------------------------------"
+          echo "CPU Details:"
+          lscpu | grep -E 'Model name:|CPU\(s\):|Thread\(s\) per core:|Core\(s\) per socket:' || true
+          echo "--------------------------------------------------------"
+          echo "RAM Details:"
+          free -h
+          echo "--------------------------------------------------------"
+          echo "Disk Details:"
+          df -h | grep -E '^Filesystem|/$' || true
+          echo "========================================================"
+
       - name: Checkout Public Data Repo (for backend_files.txt)
         uses: actions/checkout@v4
         
