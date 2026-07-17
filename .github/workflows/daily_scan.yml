@@ -208,7 +208,7 @@ jobs:
           export LD_LIBRARY_PATH="$HOME/ta-lib-install/lib"
           
           # uv run automatically handles venv creation, dependency compilation, and execution using uv.lock
-          uv run --project backend python backend/run_scanner.py --export-json --mode ${{ steps.check.outputs.scan_mode }}
+          uv run --project backend python -u backend/run_scanner.py --export-json --mode ${{ steps.check.outputs.scan_mode }} | uv run --project backend python -u backend/timestamp_pipe.py
 
       - name: Preserve Pricing Assets from CDN
         if: steps.check.outputs.should_run == 'true'

@@ -130,7 +130,7 @@ jobs:
       - name: Run Live Prices Fetcher
         if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
         run: |
-          backend/.venv-prices/bin/python backend/update_prices.py
+          backend/.venv-prices/bin/python -u backend/update_prices.py | backend/.venv-prices/bin/python -u backend/timestamp_pipe.py
 
       - name: Deploy live_prices.json to GitHub Pages
         if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
