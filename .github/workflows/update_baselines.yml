@@ -18,6 +18,7 @@ concurrency:
 jobs:
   update-baselines:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
 
@@ -76,6 +77,28 @@ jobs:
       - name: Run Baseline Generator
         run: |
           uv run --project backend python backend/research/generate_sec_baselines.py
+
+      - name: Validate Generated Baselines
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib, sys
+
+          # sec_baselines.json feeds every later market scan, so a truncated SEC pull
+          # must not be committed to the app repo's main branch.
+          path = pathlib.Path('backend/data/sec_baselines.json')
+          if not path.is_file() or path.stat().st_size == 0:
+              sys.exit('sec_baselines.json is missing or empty - refusing to commit')
+          try:
+              data = json.loads(path.read_text(encoding='utf-8'))
+          except Exception as e:
+              sys.exit(f'sec_baselines.json is not valid JSON: {e}')
+          if not isinstance(data, dict):
+              sys.exit(f'sec_baselines.json is a {type(data).__name__}, expected a ticker map')
+          if len(data) < 100:
+              sys.exit(f'sec_baselines.json holds only {len(data)} tickers - refusing to commit a truncated set')
+          print(f'sec_baselines.json validated: {len(data)} tickers')
+          PY
 
       - name: Commit and Push Baselines Database
         uses: stefanzweifel/git-auto-commit-action@v5
