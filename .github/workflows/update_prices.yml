@@ -58,27 +58,38 @@ jobs:
         run: |
           set -euo pipefail
           python - <<'PY'
-          import os, json, urllib.request, concurrent.futures
+          import os, json, time, urllib.error, urllib.request, concurrent.futures
 
           REPO = 'userlessname/stock-forecaster-app'
           RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
           headers = {'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'}
 
-          def get(url):
-              req = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(req) as r:
-                  return r.read()
+          def get(url, attempts=4):
+              # This workflow fires every 5 minutes; a transient 429/5xx must not be
+              # mistaken for a missing file. 404 is definitive and never retried.
+              for attempt in range(attempts):
+                  try:
+                      req = urllib.request.Request(url, headers=headers)
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          return r.read()
+                  except urllib.error.HTTPError as e:
+                      if e.code == 404 or attempt == attempts - 1:
+                          raise
+                  except Exception:
+                      if attempt == attempts - 1:
+                          raise
+                  time.sleep(2 ** attempt)
 
           print('Downloading backend_files.txt...')
           manifest = {line.strip() for line in get(RAW + 'backend/backend_files.txt').decode().splitlines() if line.strip()}
 
           # Manifest drift guard - see daily_scan.yml: a backend module that never made it
           # into backend_files.txt silently breaks the run at import time.
-          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main?recursive=1'))
+          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main:backend?recursive=1'))
           if tree.get('truncated'):
               raise SystemExit('git tree response truncated - cannot verify the backend module set')
-          discovered = {e['path'] for e in tree['tree']
-                        if e['type'] == 'blob' and e['path'].startswith('backend/') and e['path'].endswith('.py')}
+          discovered = {'backend/' + e['path'] for e in tree['tree']
+                        if e['type'] == 'blob' and e['path'].endswith('.py')}
           extra = discovered - manifest
           if extra:
               print(f'Manifest drift: {len(extra)} backend module(s) missing from backend_files.txt: ' + ', '.join(sorted(extra)))
