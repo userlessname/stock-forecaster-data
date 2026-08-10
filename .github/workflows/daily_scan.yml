@@ -53,29 +53,50 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Fetch Private Backend via Raw CDN (Ultimate Parallel Bypass)
+        env:
+          PRIVATE_REPO_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
         run: |
-          python -c "
-          import os, urllib.request, concurrent.futures
-          
-          token = '${{ secrets.PRIVATE_REPO_PAT }}'
-          headers = {'Authorization': f'token {token}', 'User-Agent': 'Python'}
-          
+          set -euo pipefail
+          python - <<'PY'
+          import os, json, urllib.request, concurrent.futures
+
+          REPO = 'userlessname/stock-forecaster-app'
+          RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
+          headers = {'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'}
+
+          def get(url):
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req) as r:
+                  return r.read()
+
           print('Downloading backend_files.txt...')
-          req = urllib.request.Request('https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/backend/backend_files.txt', headers=headers)
-          with urllib.request.urlopen(req) as r:
-              files = r.read().decode().splitlines()
-          
+          manifest = {line.strip() for line in get(RAW + 'backend/backend_files.txt').decode().splitlines() if line.strip()}
+
+          # Manifest drift guard: backend_files.txt is hand-maintained, so a newly added
+          # module can be absent from it and the scan then dies with ModuleNotFoundError
+          # (this is exactly what wiped the CDN on 2026-08-09). Union in every backend
+          # Python module straight from the git tree so the manifest can never be the
+          # reason a scan fails.
+          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main?recursive=1'))
+          if tree.get('truncated'):
+              raise SystemExit('git tree response truncated - cannot verify the backend module set')
+          discovered = {e['path'] for e in tree['tree']
+                        if e['type'] == 'blob' and e['path'].startswith('backend/') and e['path'].endswith('.py')}
+          extra = discovered - manifest
+          if extra:
+              print(f'Manifest drift: {len(extra)} backend module(s) missing from backend_files.txt: ' + ', '.join(sorted(extra)))
+          files = sorted(manifest | discovered)
+
+          failures = []
+
           def download_file(filepath):
-              if not filepath.strip(): return
-              url = f'https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/{filepath}'
               os.makedirs(os.path.dirname(filepath) or '.', exist_ok=True)
               try:
-                  req_file = urllib.request.Request(url, headers=headers)
-                  with urllib.request.urlopen(req_file) as src, open(filepath, 'wb') as dest:
-                      dest.write(src.read())
+                  with open(filepath, 'wb') as dest:
+                      dest.write(get(RAW + filepath))
               except Exception as e:
-                  print(f'Failed to download {filepath}: {e}')
-                  
+                  failures.append((filepath, repr(e)))
+
           try:
               cores = int(os.environ.get('DETECTED_CORES', '2'))
           except Exception:
@@ -83,9 +104,16 @@ jobs:
           workers = min(cores * 10, 40)
           print(f'Downloading {len(files)} files in parallel using {workers} workers...')
           with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
-              executor.map(download_file, files)
+              list(executor.map(download_file, files))
+
+          # Fail loudly: a silently missing module used to surface only as an
+          # empty publish_dir, one step before the CDN got overwritten.
+          if failures:
+              for path, err in failures:
+                  print(f'FAILED {path}: {err}')
+              raise SystemExit(f'{len(failures)} backend file(s) failed to download')
           print('Successfully fetched all backend files!')
-          "
+          PY
 
       - name: Set up uv & Python
         uses: astral-sh/setup-uv@v5
@@ -201,21 +229,84 @@ jobs:
           MKL_NUM_THREADS: ${{ env.DETECTED_CORES }}
           OPENBLAS_NUM_THREADS: ${{ env.DETECTED_CORES }}
         run: |
+          # pipefail is NOT a GitHub Actions default (the shell is `bash -e`). Without it
+          # the scanner can die on the left-hand side of the pipe while timestamp_pipe.py
+          # exits 0, turning a crashed scan into a green step - the failure mode that let
+          # an empty publish_dir reach the deploy step on 2026-08-09.
+          set -o pipefail
           unset VIRTUAL_ENV
           # Dynamically export path variables to prevent hardcoding /home/runner
           export TA_INCLUDE_PATH="$HOME/ta-lib-install/include"
           export TA_LIBRARY_PATH="$HOME/ta-lib-install/lib"
           export LD_LIBRARY_PATH="$HOME/ta-lib-install/lib"
-          
+
           # uv run automatically handles venv creation, dependency compilation, and execution using uv.lock
           uv run --project backend python -u backend/run_scanner.py --export-json --mode ${{ steps.check.outputs.scan_mode }} | uv run --project backend python -u backend/timestamp_pipe.py
+
+      - name: Validate Scan Output Before Publishing
+        if: steps.check.outputs.should_run == 'true'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib, sys
+
+          # Last gate before the CDN is touched: publishing an incomplete backend/api is
+          # what takes the app offline, so an under-populated export must fail the job
+          # instead of reaching the deploy step.
+          api = pathlib.Path('backend/api')
+          problems = []
+
+          def count(sub, pattern='*.json'):
+              d = api / sub
+              return len(list(d.glob(pattern))) if d.is_dir() else 0
+
+          expectations = [
+              ('forecast', count('forecast'), 500),
+              ('backtest', count('backtest'), 500),
+              ('top', count('top'), 15),
+              ('backtests', count('backtests', 'leaderboard*.json'), 5),
+          ]
+          for name, found, minimum in expectations:
+              if found < minimum:
+                  problems.append(f'{name}/: {found} json file(s), expected at least {minimum}')
+
+          for name in ('indices.json', 'search.json', 'daily_scan_metadata.json'):
+              path = api / name
+              if not path.is_file() or path.stat().st_size == 0:
+                  problems.append(f'{name}: missing or empty')
+                  continue
+              try:
+                  json.loads(path.read_text(encoding='utf-8'))
+              except Exception as e:
+                  problems.append(f'{name}: not valid JSON ({e})')
+
+          if problems:
+              print('Scan output validation FAILED - refusing to publish:')
+              for p in problems:
+                  print(f'  - {p}')
+              sys.exit(1)
+
+          print('Scan output validation passed:')
+          for name, found, _ in expectations:
+              print(f'  {name}/: {found} json file(s)')
+          PY
 
       - name: Preserve Pricing Assets from CDN
         if: steps.check.outputs.should_run == 'true'
         run: |
+          set -euo pipefail
           mkdir -p backend/api
-          curl -s -f "https://userlessname.github.io/stock-forecaster-data/live_prices.json" -o backend/api/live_prices.json || echo "[]" > backend/api/live_prices.json
-          curl -s -f "https://userlessname.github.io/stock-forecaster-data/update_prices_metadata.json" -o backend/api/update_prices_metadata.json || echo "{}" > backend/api/update_prices_metadata.json
+          for asset in live_prices.json update_prices_metadata.json; do
+            if curl -sf "https://userlessname.github.io/stock-forecaster-data/$asset" -o "backend/api/$asset.tmp" \
+               && [ -s "backend/api/$asset.tmp" ]; then
+              mv "backend/api/$asset.tmp" "backend/api/$asset"
+            else
+              # Never fall back to an empty placeholder: leaving the file absent lets
+              # keep_files preserve whatever the price workflow last published.
+              rm -f "backend/api/$asset.tmp"
+              echo "WARN: could not refresh $asset from the CDN; keeping the published copy."
+            fi
+          done
 
       - name: Deploy to GitHub Pages
         if: steps.check.outputs.should_run == 'true'
@@ -225,5 +316,8 @@ jobs:
           external_repository: userlessname/stock-forecaster-data
           publish_dir: ./backend/api
           publish_branch: gh-pages
-          force_orphan: true
-          keep_files: false
+          # force_orphan/keep_files:false means "delete the whole CDN, then upload
+          # whatever is in publish_dir" - one bad export wipes every artifact and the
+          # branch history with it. Additive publishing keeps a partial export partial.
+          force_orphan: false
+          keep_files: true
