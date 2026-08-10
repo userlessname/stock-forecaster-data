@@ -58,16 +58,27 @@ jobs:
         run: |
           set -euo pipefail
           python - <<'PY'
-          import os, json, urllib.request, concurrent.futures
+          import os, json, time, urllib.error, urllib.request, concurrent.futures
 
           REPO = 'userlessname/stock-forecaster-app'
           RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
           headers = {'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'}
 
-          def get(url):
-              req = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(req) as r:
-                  return r.read()
+          def get(url, attempts=4):
+              # Download failures now fail the job, so a transient 429/5xx must not be
+              # mistaken for a missing file. 404 is definitive and never retried.
+              for attempt in range(attempts):
+                  try:
+                      req = urllib.request.Request(url, headers=headers)
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          return r.read()
+                  except urllib.error.HTTPError as e:
+                      if e.code == 404 or attempt == attempts - 1:
+                          raise
+                  except Exception:
+                      if attempt == attempts - 1:
+                          raise
+                  time.sleep(2 ** attempt)
 
           print('Downloading backend_files.txt...')
           manifest = {line.strip() for line in get(RAW + 'backend/backend_files.txt').decode().splitlines() if line.strip()}
@@ -76,12 +87,13 @@ jobs:
           # module can be absent from it and the scan then dies with ModuleNotFoundError
           # (this is exactly what wiped the CDN on 2026-08-09). Union in every backend
           # Python module straight from the git tree so the manifest can never be the
-          # reason a scan fails.
-          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main?recursive=1'))
+          # reason a scan fails. The `main:backend` subtree keeps the response ~45 KB
+          # instead of pulling the whole app repo's file list.
+          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main:backend?recursive=1'))
           if tree.get('truncated'):
               raise SystemExit('git tree response truncated - cannot verify the backend module set')
-          discovered = {e['path'] for e in tree['tree']
-                        if e['type'] == 'blob' and e['path'].startswith('backend/') and e['path'].endswith('.py')}
+          discovered = {'backend/' + e['path'] for e in tree['tree']
+                        if e['type'] == 'blob' and e['path'].endswith('.py')}
           extra = discovered - manifest
           if extra:
               print(f'Manifest drift: {len(extra)} backend module(s) missing from backend_files.txt: ' + ', '.join(sorted(extra)))
@@ -245,32 +257,37 @@ jobs:
 
       - name: Validate Scan Output Before Publishing
         if: steps.check.outputs.should_run == 'true'
+        env:
+          PRIVATE_REPO_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json, pathlib, sys
+          import fnmatch, json, os, pathlib, sys, urllib.request
 
-          # Last gate before the CDN is touched: publishing an incomplete backend/api is
-          # what takes the app offline, so an under-populated export must fail the job
-          # instead of reaching the deploy step.
+          # Last gate before the CDN is touched. run_scanner.py wraps the whole list
+          # export in `except Exception: print(...)` and still exits 0, so a partial
+          # backend/api arrives here looking exactly like a healthy one.
           api = pathlib.Path('backend/api')
+          DIRS = (
+              ('forecast', '*.json', 500),
+              ('backtest', '*.json', 500),
+              ('top', '*.json', 15),
+              ('backtests', 'leaderboard*.json', 5),
+          )
+          # cache_db.json is the next scan's bootstrap input - run_scanner.py reads it
+          # back off the CDN - so publishing a broken one poisons every later run.
+          REQUIRED = ('indices.json', 'search.json', 'daily_scan_metadata.json',
+                      'signal_inputs.json', 'cache_db.json')
+
           problems = []
+          local = {}
+          for name, pattern, floor in DIRS:
+              d = api / name
+              local[name] = len(list(d.glob(pattern))) if d.is_dir() else 0
+              if local[name] < floor:
+                  problems.append(f'{name}/: {local[name]} file(s), expected at least {floor}')
 
-          def count(sub, pattern='*.json'):
-              d = api / sub
-              return len(list(d.glob(pattern))) if d.is_dir() else 0
-
-          expectations = [
-              ('forecast', count('forecast'), 500),
-              ('backtest', count('backtest'), 500),
-              ('top', count('top'), 15),
-              ('backtests', count('backtests', 'leaderboard*.json'), 5),
-          ]
-          for name, found, minimum in expectations:
-              if found < minimum:
-                  problems.append(f'{name}/: {found} json file(s), expected at least {minimum}')
-
-          for name in ('indices.json', 'search.json', 'daily_scan_metadata.json'):
+          for name in REQUIRED:
               path = api / name
               if not path.is_file() or path.stat().st_size == 0:
                   problems.append(f'{name}: missing or empty')
@@ -280,6 +297,31 @@ jobs:
               except Exception as e:
                   problems.append(f'{name}: not valid JSON ({e})')
 
+          # Regression guard: per-ticker export errors are swallowed one ticker at a time,
+          # so a run can drop a slice of the universe and still clear the absolute floors.
+          # Compare against what is already published instead.
+          published = {}
+          try:
+              req = urllib.request.Request(
+                  'https://api.github.com/repos/userlessname/stock-forecaster-data/git/trees/gh-pages?recursive=1',
+                  headers={'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'})
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  tree = json.load(r)
+              if tree.get('truncated'):
+                  raise RuntimeError('published tree truncated')
+              for name, pattern, _ in DIRS:
+                  published[name] = sum(1 for e in tree['tree']
+                                        if e['type'] == 'blob' and e['path'].startswith(name + '/')
+                                        and fnmatch.fnmatch(e['path'].rsplit('/', 1)[-1], pattern))
+          except Exception as e:
+              # A CDN read hiccup must not block an otherwise healthy publish.
+              print(f'WARN: skipping the regression check, could not read the published tree ({e})')
+
+          for name, _, _ in DIRS:
+              was = published.get(name, 0)
+              if was and local[name] < was * 0.95:
+                  problems.append(f'{name}/: {local[name]} file(s) against {was} already published (>5% drop)')
+
           if problems:
               print('Scan output validation FAILED - refusing to publish:')
               for p in problems:
@@ -287,27 +329,14 @@ jobs:
               sys.exit(1)
 
           print('Scan output validation passed:')
-          for name, found, _ in expectations:
-              print(f'  {name}/: {found} json file(s)')
+          for name, _, _ in DIRS:
+              print(f'  {name}/: {local[name]} file(s) (published: {published.get(name, "unknown")})')
           PY
 
-      - name: Preserve Pricing Assets from CDN
-        if: steps.check.outputs.should_run == 'true'
-        run: |
-          set -euo pipefail
-          mkdir -p backend/api
-          for asset in live_prices.json update_prices_metadata.json; do
-            if curl -sf "https://userlessname.github.io/stock-forecaster-data/$asset" -o "backend/api/$asset.tmp" \
-               && [ -s "backend/api/$asset.tmp" ]; then
-              mv "backend/api/$asset.tmp" "backend/api/$asset"
-            else
-              # Never fall back to an empty placeholder: leaving the file absent lets
-              # keep_files preserve whatever the price workflow last published.
-              rm -f "backend/api/$asset.tmp"
-              echo "WARN: could not refresh $asset from the CDN; keeping the published copy."
-            fi
-          done
-
+      # No pricing-asset preservation step: keep_files leaves live_prices.json and
+      # update_prices_metadata.json untouched because the scan never writes them into
+      # publish_dir. Re-fetching them from Pages only risked republishing a cached,
+      # older quote set over the fresher one update_prices.yml had just pushed.
       - name: Deploy to GitHub Pages
         if: steps.check.outputs.should_run == 'true'
         uses: peaceiris/actions-gh-pages@v4
