@@ -53,29 +53,47 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Fetch Private Backend via Raw CDN (Ultimate Parallel Bypass)
+        env:
+          PRIVATE_REPO_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
         run: |
-          python -c "
-          import os, urllib.request, concurrent.futures
-          
-          token = '${{ secrets.PRIVATE_REPO_PAT }}'
-          headers = {'Authorization': f'token {token}', 'User-Agent': 'Python'}
-          
+          set -euo pipefail
+          python - <<'PY'
+          import os, json, urllib.request, concurrent.futures
+
+          REPO = 'userlessname/stock-forecaster-app'
+          RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
+          headers = {'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'}
+
+          def get(url):
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req) as r:
+                  return r.read()
+
           print('Downloading backend_files.txt...')
-          req = urllib.request.Request('https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/backend/backend_files.txt', headers=headers)
-          with urllib.request.urlopen(req) as r:
-              files = r.read().decode().splitlines()
-          
+          manifest = {line.strip() for line in get(RAW + 'backend/backend_files.txt').decode().splitlines() if line.strip()}
+
+          # Manifest drift guard - see daily_scan.yml: a backend module that never made it
+          # into backend_files.txt silently breaks the run at import time.
+          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main?recursive=1'))
+          if tree.get('truncated'):
+              raise SystemExit('git tree response truncated - cannot verify the backend module set')
+          discovered = {e['path'] for e in tree['tree']
+                        if e['type'] == 'blob' and e['path'].startswith('backend/') and e['path'].endswith('.py')}
+          extra = discovered - manifest
+          if extra:
+              print(f'Manifest drift: {len(extra)} backend module(s) missing from backend_files.txt: ' + ', '.join(sorted(extra)))
+          files = sorted(manifest | discovered)
+
+          failures = []
+
           def download_file(filepath):
-              if not filepath.strip(): return
-              url = f'https://raw.githubusercontent.com/userlessname/stock-forecaster-app/main/{filepath}'
               os.makedirs(os.path.dirname(filepath) or '.', exist_ok=True)
               try:
-                  req_file = urllib.request.Request(url, headers=headers)
-                  with urllib.request.urlopen(req_file) as src, open(filepath, 'wb') as dest:
-                      dest.write(src.read())
+                  with open(filepath, 'wb') as dest:
+                      dest.write(get(RAW + filepath))
               except Exception as e:
-                  print(f'Failed to download {filepath}: {e}')
-                  
+                  failures.append((filepath, repr(e)))
+
           try:
               cores = int(os.environ.get('DETECTED_CORES', '2'))
           except Exception:
@@ -83,9 +101,14 @@ jobs:
           workers = min(cores * 10, 40)
           print(f'Downloading {len(files)} files in parallel using {workers} workers...')
           with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
-              executor.map(download_file, files)
+              list(executor.map(download_file, files))
+
+          if failures:
+              for path, err in failures:
+                  print(f'FAILED {path}: {err}')
+              raise SystemExit(f'{len(failures)} backend file(s) failed to download')
           print('Successfully fetched all backend files!')
-          "
+          PY
 
       - name: Set up uv & Python
         uses: astral-sh/setup-uv@v5
@@ -130,7 +153,29 @@ jobs:
       - name: Run Live Prices Fetcher
         if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
         run: |
+          # Without pipefail a crashed fetcher still exits 0, because the pipeline takes
+          # timestamp_pipe.py's status (see daily_scan.yml).
+          set -o pipefail
           backend/.venv-prices/bin/python -u backend/update_prices.py | backend/.venv-prices/bin/python -u backend/timestamp_pipe.py
+
+      - name: Validate Live Prices Before Publishing
+        if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib, sys
+
+          path = pathlib.Path('backend/api/live_prices.json')
+          if not path.is_file() or path.stat().st_size == 0:
+              sys.exit('live_prices.json is missing or empty - refusing to publish')
+          try:
+              data = json.loads(path.read_text(encoding='utf-8'))
+          except Exception as e:
+              sys.exit(f'live_prices.json is not valid JSON: {e}')
+          if not data:
+              sys.exit('live_prices.json holds no quotes - refusing to publish')
+          print(f'live_prices.json validated: {len(data)} entries')
+          PY
 
       - name: Deploy live_prices.json to GitHub Pages
         if: steps.check.outputs.should_run == 'true' && steps.check.outputs.scan_mode != 'sentiment_only'
