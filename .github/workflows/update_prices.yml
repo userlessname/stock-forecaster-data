@@ -58,32 +58,37 @@ jobs:
         run: |
           set -euo pipefail
           python - <<'PY'
-          import os, json, time, urllib.error, urllib.request, concurrent.futures
+          import os, json, time, random, urllib.request, concurrent.futures
 
           REPO = 'userlessname/stock-forecaster-app'
           RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
           headers = {'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'}
 
-          def get(url, attempts=4, retry_404=False):
-              # This workflow fires every 5 minutes; a transient 429/5xx must not be
-              # mistaken for a missing file. A 404 from raw.githubusercontent means the
-              # file genuinely is not on `main`, so retrying it is pointless. The GitHub
-              # REST API also answers 404 for "cannot see it right now" - a momentarily
-              # rejected token, a rate-limit blip, replication lag just after a push - so
-              # that caller opts in via retry_404. On 2026-08-17 13:55 the tree call 404'd
-              # and killed the scan; the identical call succeeded at 16:20.
+          def get(url, attempts=5):
+              # This workflow fires every 5 minutes, so a transient failure must never be
+              # mistaken for a missing file - and 404 IS a transient failure here. On a
+              # PRIVATE repo, raw.githubusercontent answers a throttled or momentarily
+              # rejected auth check with 404, not 401/403/429, to avoid leaking whether
+              # the repo exists; the GitHub REST API does the same. At the HTTP layer
+              # "rate-limited" is therefore indistinguishable from "not on `main`", so
+              # every caller retries 404 and none of them opts out.
+              # Treating 404 as proof of absence broke this step twice on 2026-08-17: at
+              # 13:55 the tree call 404'd and killed the scan while the identical call
+              # succeeded at 16:20, and at 17:48 four files that had been on `main` for
+              # weeks 404'd inside a 2.4 s / 40-worker burst - in the same job whose tree
+              # call had just listed one of them. A genuinely missing file still fails the
+              # job, one retry budget later.
               for attempt in range(attempts):
                   try:
                       req = urllib.request.Request(url, headers=headers)
                       with urllib.request.urlopen(req, timeout=30) as r:
                           return r.read()
-                  except urllib.error.HTTPError as e:
-                      if (e.code == 404 and not retry_404) or attempt == attempts - 1:
-                          raise
                   except Exception:
                       if attempt == attempts - 1:
                           raise
-                  time.sleep(2 ** attempt)
+                  # Jitter: workers throttled at the same instant would otherwise retry in
+                  # lockstep and re-trigger the very rate limit they are backing off from.
+                  time.sleep(2 ** attempt + random.random())
 
           print('Downloading backend_files.txt...')
           manifest = {line.strip() for line in get(RAW + 'backend/backend_files.txt').decode().splitlines() if line.strip()}
@@ -97,8 +102,7 @@ jobs:
           discovered = set()
           try:
               tree = json.loads(get(
-                  f'https://api.github.com/repos/{REPO}/git/trees/main:backend?recursive=1',
-                  retry_404=True))
+                  f'https://api.github.com/repos/{REPO}/git/trees/main:backend?recursive=1'))
               if tree.get('truncated'):
                   print('WARNING: git tree response truncated - drift guard skipped this run')
               else:
@@ -125,14 +129,20 @@ jobs:
               cores = int(os.environ.get('DETECTED_CORES', '2'))
           except Exception:
               cores = 2
-          workers = min(cores * 10, 40)
+          # 40 concurrent workers pulled 140 files in 2.4 s (~58 req/s) on 2026-08-17 and
+          # tripped GitHub's secondary rate limit, which a private repo reports as 404.
+          # The retry in get() survives that; this keeps it from being provoked at all.
+          workers = min(cores * 2, 8)
           print(f'Downloading {len(files)} files in parallel using {workers} workers...')
           with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
               list(executor.map(download_file, files))
 
           if failures:
               for path, err in failures:
-                  print(f'FAILED {path}: {err}')
+                  # Name the likely cause rather than leaving the next reader to re-derive
+                  # it: a path the git tree listed seconds ago cannot be absent from `main`.
+                  note = ' [tree-confirmed on main - transient, not a missing file]' if path in discovered else ''
+                  print(f'FAILED {path}: {err}{note}')
               raise SystemExit(f'{len(failures)} backend file(s) failed to download')
           print('Successfully fetched all backend files!')
           PY
