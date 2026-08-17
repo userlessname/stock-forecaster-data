@@ -7,7 +7,7 @@ on:
     inputs:
       force_run:
         description: 'Force execution (skip check validations)'
-        required: false
+        required: false 
         type: boolean
         default: true
 
