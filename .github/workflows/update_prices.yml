@@ -64,16 +64,21 @@ jobs:
           RAW = f'https://raw.githubusercontent.com/{REPO}/main/'
           headers = {'Authorization': f"token {os.environ['PRIVATE_REPO_PAT']}", 'User-Agent': 'Python'}
 
-          def get(url, attempts=4):
+          def get(url, attempts=4, retry_404=False):
               # This workflow fires every 5 minutes; a transient 429/5xx must not be
-              # mistaken for a missing file. 404 is definitive and never retried.
+              # mistaken for a missing file. A 404 from raw.githubusercontent means the
+              # file genuinely is not on `main`, so retrying it is pointless. The GitHub
+              # REST API also answers 404 for "cannot see it right now" - a momentarily
+              # rejected token, a rate-limit blip, replication lag just after a push - so
+              # that caller opts in via retry_404. On 2026-08-17 13:55 the tree call 404'd
+              # and killed the scan; the identical call succeeded at 16:20.
               for attempt in range(attempts):
                   try:
                       req = urllib.request.Request(url, headers=headers)
                       with urllib.request.urlopen(req, timeout=30) as r:
                           return r.read()
                   except urllib.error.HTTPError as e:
-                      if e.code == 404 or attempt == attempts - 1:
+                      if (e.code == 404 and not retry_404) or attempt == attempts - 1:
                           raise
                   except Exception:
                       if attempt == attempts - 1:
@@ -85,11 +90,22 @@ jobs:
 
           # Manifest drift guard - see daily_scan.yml: a backend module that never made it
           # into backend_files.txt silently breaks the run at import time.
-          tree = json.loads(get(f'https://api.github.com/repos/{REPO}/git/trees/main:backend?recursive=1'))
-          if tree.get('truncated'):
-              raise SystemExit('git tree response truncated - cannot verify the backend module set')
-          discovered = {'backend/' + e['path'] for e in tree['tree']
-                        if e['type'] == 'blob' and e['path'].endswith('.py')}
+          # SAFETY NET for manifest drift, not a dependency. Killing the job when it
+          # cannot be consulted inverts its own purpose, so it degrades to a warning:
+          # backend_files.txt is a complete file list on its own, and the app repo now
+          # guards it with backend/tests/test_backend_files_manifest.py.
+          discovered = set()
+          try:
+              tree = json.loads(get(
+                  f'https://api.github.com/repos/{REPO}/git/trees/main:backend?recursive=1',
+                  retry_404=True))
+              if tree.get('truncated'):
+                  print('WARNING: git tree response truncated - drift guard skipped this run')
+              else:
+                  discovered = {'backend/' + e['path'] for e in tree['tree']
+                                if e['type'] == 'blob' and e['path'].endswith('.py')}
+          except Exception as exc:
+              print(f'WARNING: drift guard unavailable ({exc!r}); using backend_files.txt alone')
           extra = discovered - manifest
           if extra:
               print(f'Manifest drift: {len(extra)} backend module(s) missing from backend_files.txt: ' + ', '.join(sorted(extra)))
