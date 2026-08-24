@@ -2,18 +2,18 @@
   "schema_version": 1,
   "generated_at": 1787000000000,
   "min_supported_version": 4,
-  "latest_version_code": 38,
+  "latest_version_code": 37,
   "blacklisted_versions": [],
   "update_url": {
     "play": "https://play.google.com/store/apps/details?id=com.mertkuni.marketforecaster",
     "web": "https://github.com/userlessname/stock-forecaster-app/releases/latest"
   },
   "title": {
-    "en": "Update available",
-    "tr": "Guncelleme mevcut"
+    "en": "Update required",
+    "tr": "Guncelleme gerekli"
   },
   "notes": {
-    "en": "A new version is available.",
-    "tr": "Yeni bir surum yayinlandi."
+    "en": "",
+    "tr": ""
   }
 }
