@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "generated_at": 1787000000000,
-  "min_supported_version": 4,
-  "latest_version_code": 37,
+  "min_supported_version": 100,
+  "latest_version_code": 100,
   "blacklisted_versions": [],
   "update_url": {
     "play": "https://play.google.com/store/apps/details?id=com.mertkuni.marketforecaster",
@@ -13,7 +13,7 @@
     "tr": "Guncelleme gerekli"
   },
   "notes": {
-    "en": "",
-    "tr": ""
+    "en": "Major update is required to continue.",
+    "tr": "Devam etmek icin zorunlu guncelleme gereklidir."
   }
 }
