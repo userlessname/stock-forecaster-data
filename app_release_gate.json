@@ -1,19 +1,19 @@
 {
   "schema_version": 1,
   "generated_at": 1787000000000,
-  "min_supported_version": 100,
-  "latest_version_code": 100,
-  "blacklisted_versions": [],
+  "min_supported_version": 4,
+  "latest_version_code": 38,
+  "blacklisted_versions": [37],
   "update_url": {
     "play": "https://play.google.com/store/apps/details?id=com.mertkuni.marketforecaster",
     "web": "https://github.com/userlessname/stock-forecaster-app/releases/latest"
   },
   "title": {
-    "en": "Update required",
-    "tr": "Guncelleme gerekli"
+    "en": "Version recalled",
+    "tr": "Surum geri cekildi"
   },
   "notes": {
-    "en": "Major update is required to continue.",
-    "tr": "Devam etmek icin zorunlu guncelleme gereklidir."
+    "en": "This build has been withdrawn due to critical issues.",
+    "tr": "Bu surum kritik sorunlar nedeniyle geri cekilmistir."
   }
 }
