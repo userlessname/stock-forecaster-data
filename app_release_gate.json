@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "generated_at": 1788192147754,
-  "min_supported_version": 37,
+  "min_supported_version": 55,
   "latest_version_code": 55,
   "blacklisted_versions": [],
   "update_url": {
