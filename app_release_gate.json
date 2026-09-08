@@ -6,7 +6,7 @@
   "blacklisted_versions": [],
   "update_url": {
     "play": "https://play.google.com/store/apps/details?id=com.mertkuni.marketforecaster",
-    "web": "https://github.com/userlessname/stock-forecaster-app/releases/latest"
+    "web": "https://play.google.com/store/apps/details?id=com.mertkuni.marketforecaster"
   },
   "title": {
     "en": "Update required",
