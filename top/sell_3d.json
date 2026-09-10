@@ -1,1 +1,1 @@
-[]
+[{"ticker":"EMR","name":"Emerson Electric Co.","last_price":148.5850067138672,"signal":"Sell","confidence":"50%"},{"ticker":"NXPI","name":"NXP Semiconductors N.V.","last_price":224.02999877929688,"signal":"Sell","confidence":"47%"},{"ticker":"WBD","name":"Warner Bros. Discovery, Inc.","last_price":28.274999618530273,"signal":"Sell","confidence":"46%"},{"ticker":"DASH","name":"DoorDash, Inc.","last_price":201.3800048828125,"signal":"Sell","confidence":"42%"},{"ticker":"KLAC","name":"KLA Corporation","last_price":179.88999938964844,"signal":"Sell","confidence":"41%"}]
