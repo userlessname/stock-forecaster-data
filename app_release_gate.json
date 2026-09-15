@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": 1789236929783,
+  "generated_at": 1789446322711,
   "min_supported_version": 55,
-  "latest_version_code": 62,
+  "latest_version_code": 63,
   "blacklisted_versions": [],
   "update_url": {
     "play": "https://play.google.com/store/apps/details?id=com.mertkuni.marketforecaster",
