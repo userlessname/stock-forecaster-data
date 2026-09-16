@@ -287,7 +287,7 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-09-15 23:56:10.000000+00:00"
+    "last_updated": "2026-09-16 08:01:23.000000+00:00"
   },
   {
     "ticker": "EMR",
@@ -296,12 +296,12 @@
   },
   {
     "ticker": "EXC",
-    "last_price": 42.19,
+    "last_price": 42.2,
     "last_updated": "2026-09-15 20:00:00.000000+00:00"
   },
   {
     "ticker": "FANG",
-    "last_price": 211.52,
+    "last_price": 211.53,
     "last_updated": "2026-09-15 20:00:00.000000+00:00"
   },
   {
@@ -381,7 +381,7 @@
   },
   {
     "ticker": "HONA",
-    "last_price": 158.49,
+    "last_price": 158.5,
     "last_updated": "2026-09-15 20:00:00.000000+00:00"
   },
   {
@@ -431,8 +431,8 @@
   },
   {
     "ticker": "KHC",
-    "last_price": 24.27,
-    "last_updated": "2026-09-14 20:00:00.000000+00:00"
+    "last_price": 24.73,
+    "last_updated": "2026-09-15 20:00:00.000000+00:00"
   },
   {
     "ticker": "KLAC",
