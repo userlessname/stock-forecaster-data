@@ -1,1 +1,1 @@
-[{"ticker":"AMD","name":"Advanced Micro Devices, Inc.","last_price":512.5,"signal":"Sell","confidence":"43%"},{"ticker":"AXON","name":"Axon Enterprise, Inc.","last_price":468.4200134277344,"signal":"Sell","confidence":"42%"},{"ticker":"MRK","name":"Merck & Co., Inc.","last_price":144.91000366210938,"signal":"Sell","confidence":"42%"}]
+[{"ticker":"AXON","name":"Axon Enterprise, Inc.","last_price":468.4200134277344,"signal":"Sell","confidence":"43%"},{"ticker":"MRK","name":"Merck & Co., Inc.","last_price":144.91000366210938,"signal":"Sell","confidence":"41%"}]
