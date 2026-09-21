@@ -1,1 +1,1 @@
-[]
+[{"ticker":"TXN","name":"Texas Instruments Incorporated","last_price":268.82501220703125,"signal":"Sell","confidence":"50%"},{"ticker":"CEG","name":"Constellation Energy Corporation","last_price":262.8349914550781,"signal":"Sell","confidence":"46%"},{"ticker":"LOW","name":"Lowe's Companies, Inc.","last_price":191.72999572753906,"signal":"Sell","confidence":"41%"},{"ticker":"ODFL","name":"Old Dominion Freight Line, Inc.","last_price":173.8699951171875,"signal":"Sell","confidence":"41%"}]
