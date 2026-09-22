@@ -1,1 +1,1 @@
-[]
+[{"ticker":"WMT","name":"Walmart Inc.","last_price":109.0,"signal":"Sell","confidence":"49%"},{"ticker":"GILD","name":"Gilead Sciences, Inc.","last_price":152.58999633789062,"signal":"Sell","confidence":"48%"},{"ticker":"LLY","name":"Eli Lilly and Company","last_price":1179.469970703125,"signal":"Sell","confidence":"48%"},{"ticker":"VRTX","name":"Vertex Pharmaceuticals Incorporated","last_price":524.6699829101562,"signal":"Sell","confidence":"48%"},{"ticker":"LIN","name":"Linde plc","last_price":462.2850036621094,"signal":"Sell","confidence":"41%"}]
