@@ -1,1 +1,1 @@
-[]
+[{"ticker":"MSFT","name":"Microsoft Corporation","last_price":498.6000061035156,"signal":"Buy","confidence":"50%"},{"ticker":"SHOP","name":"Shopify Inc.","last_price":141.2100067138672,"signal":"Buy","confidence":"46%"},{"ticker":"ALNY","name":"Alnylam Pharmaceuticals, Inc.","last_price":247.875,"signal":"Buy","confidence":"45%"},{"ticker":"MELI","name":"MercadoLibre, Inc.","last_price":1803.6099853515625,"signal":"Buy","confidence":"41%"},{"ticker":"MSTR","name":"Strategy Inc","last_price":165.10000610351562,"signal":"Buy","confidence":"40%"}]
