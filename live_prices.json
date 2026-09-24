@@ -292,11 +292,11 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-09-24 20:16:10.000000+00:00"
+    "last_updated": "2026-09-24 20:21:15.000000+00:00"
   },
   {
     "ticker": "EMR",
-    "last_price": 156.08,
+    "last_price": 156.14,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
@@ -456,17 +456,17 @@
   },
   {
     "ticker": "LLY",
-    "last_price": 1183.86,
+    "last_price": 1181.89,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
     "ticker": "LMT",
-    "last_price": 523.72,
+    "last_price": 523.7,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
     "ticker": "LOW",
-    "last_price": 188.62,
+    "last_price": 188.49,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
@@ -536,7 +536,7 @@
   },
   {
     "ticker": "MRK",
-    "last_price": 148.01,
+    "last_price": 147.98,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
@@ -601,7 +601,7 @@
   },
   {
     "ticker": "ORCL",
-    "last_price": 139.53,
+    "last_price": 139.54,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
@@ -636,12 +636,12 @@
   },
   {
     "ticker": "PFE",
-    "last_price": 28.43,
+    "last_price": 28.41,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
     "ticker": "PG",
-    "last_price": 145.71,
+    "last_price": 145.68,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
@@ -826,7 +826,7 @@
   },
   {
     "ticker": "WFC",
-    "last_price": 82.19,
+    "last_price": 82.18,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
@@ -841,7 +841,7 @@
   },
   {
     "ticker": "XOM",
-    "last_price": 162.05,
+    "last_price": 162.14,
     "last_updated": "2026-09-24 20:00:00.000000+00:00"
   },
   {
