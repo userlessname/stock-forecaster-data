@@ -276,7 +276,7 @@
   },
   {
     "ticker": "DIS",
-    "last_price": 105.7,
+    "last_price": 105.59,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
@@ -292,11 +292,11 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-09-28 20:15:50.000000+00:00"
+    "last_updated": "2026-09-28 20:20:52.000000+00:00"
   },
   {
     "ticker": "EMR",
-    "last_price": 159.41,
+    "last_price": 159.39,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
@@ -456,12 +456,12 @@
   },
   {
     "ticker": "LLY",
-    "last_price": 1185.97,
+    "last_price": 1184.78,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
     "ticker": "LMT",
-    "last_price": 518.07,
+    "last_price": 518.1,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
@@ -601,7 +601,7 @@
   },
   {
     "ticker": "ORCL",
-    "last_price": 132.63,
+    "last_price": 132.6,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
@@ -641,7 +641,7 @@
   },
   {
     "ticker": "PG",
-    "last_price": 149.04,
+    "last_price": 149.03,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
@@ -726,7 +726,7 @@
   },
   {
     "ticker": "T",
-    "last_price": 24.92,
+    "last_price": 24.9,
     "last_updated": "2026-09-28 20:00:00.000000+00:00"
   },
   {
