@@ -16,7 +16,7 @@
   },
   {
     "ticker": "ABT",
-    "last_price": 97.51,
+    "last_price": 97.5,
     "last_updated": "2026-10-02 20:00:00.000000+00:00"
   },
   {
@@ -146,7 +146,7 @@
   },
   {
     "ticker": "BNY",
-    "last_price": 145.42,
+    "last_price": 145.4,
     "last_updated": "2026-10-02 20:00:00.000000+00:00"
   },
   {
@@ -292,11 +292,11 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-10-02 20:16:10.000000+00:00"
+    "last_updated": "2026-10-02 20:20:56.000000+00:00"
   },
   {
     "ticker": "EMR",
-    "last_price": 161.62,
+    "last_price": 161.61,
     "last_updated": "2026-10-02 20:00:00.000000+00:00"
   },
   {
@@ -466,7 +466,7 @@
   },
   {
     "ticker": "LOW",
-    "last_price": 180.86,
+    "last_price": 180.8,
     "last_updated": "2026-10-02 20:00:00.000000+00:00"
   },
   {
@@ -781,7 +781,7 @@
   },
   {
     "ticker": "UPS",
-    "last_price": 93.03,
+    "last_price": 93.02,
     "last_updated": "2026-10-02 20:00:00.000000+00:00"
   },
   {
