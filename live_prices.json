@@ -1,72 +1,72 @@
 [
   {
     "ticker": "AAPL",
-    "last_price": 338.56,
+    "last_price": 338.8,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ABBV",
-    "last_price": 265.9,
+    "last_price": 265.8,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ABNB",
-    "last_price": 162.52,
+    "last_price": 162.5,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ABT",
-    "last_price": 97.35,
+    "last_price": 97.26,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ACN",
-    "last_price": 198.57,
+    "last_price": 198.99,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ADBE",
-    "last_price": 233.29,
+    "last_price": 233.68,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ADI",
-    "last_price": 408.62,
+    "last_price": 409.14,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ADP",
-    "last_price": 265.64,
+    "last_price": 266.02,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ADSK",
-    "last_price": 231.54,
+    "last_price": 231.53,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AEP",
-    "last_price": 121.64,
+    "last_price": 121.71,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ALNY",
-    "last_price": 218.98,
+    "last_price": 219.0,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AMAT",
-    "last_price": 519.24,
+    "last_price": 520.31,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AMD",
-    "last_price": 632.26,
+    "last_price": 631.32,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AMGN",
-    "last_price": 401.26,
+    "last_price": 400.69,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
@@ -76,57 +76,57 @@
   },
   {
     "ticker": "AMZN",
-    "last_price": 258.06,
+    "last_price": 258.05,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ANET",
-    "last_price": 213.15,
+    "last_price": 212.55,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "APP",
-    "last_price": 276.15,
+    "last_price": 275.96,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ARM",
-    "last_price": 280.15,
+    "last_price": 279.23,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ASML",
-    "last_price": 1815.2,
+    "last_price": 1816.33,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AVGO",
-    "last_price": 372.22,
+    "last_price": 371.91,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AXON",
-    "last_price": 407.48,
+    "last_price": 407.44,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "AXP",
-    "last_price": 302.3,
+    "last_price": 302.46,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "BA",
-    "last_price": 185.84,
+    "last_price": 185.68,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "BAC",
-    "last_price": 52.47,
+    "last_price": 52.55,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "BKNG",
-    "last_price": 156.27,
+    "last_price": 156.24,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
@@ -136,192 +136,192 @@
   },
   {
     "ticker": "BLK",
-    "last_price": 1061.7,
+    "last_price": 1062.03,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "BMY",
-    "last_price": 59.09,
+    "last_price": 58.87,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "BNY",
-    "last_price": 142.27,
+    "last_price": 142.31,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "BRK-B",
-    "last_price": 506.49,
+    "last_price": 506.59,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "C",
-    "last_price": 125.95,
+    "last_price": 126.13,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CAT",
-    "last_price": 808.45,
+    "last_price": 807.71,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CCEP",
-    "last_price": 102.8,
+    "last_price": 102.86,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CDNS",
-    "last_price": 353.76,
+    "last_price": 353.26,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CEG",
-    "last_price": 293.27,
+    "last_price": 292.67,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CHTR",
-    "last_price": 107.58,
+    "last_price": 107.32,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CMCSA",
-    "last_price": 20.95,
+    "last_price": 20.93,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "COF",
-    "last_price": 195.91,
+    "last_price": 195.97,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "COP",
-    "last_price": 134.01,
+    "last_price": 134.16,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "COST",
-    "last_price": 947.28,
+    "last_price": 947.12,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CPRT",
-    "last_price": 26.91,
+    "last_price": 26.93,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CRM",
-    "last_price": 222.01,
+    "last_price": 222.22,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CRWD",
-    "last_price": 265.84,
+    "last_price": 265.23,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CSCO",
-    "last_price": 116.23,
+    "last_price": 116.21,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CSX",
-    "last_price": 46.97,
+    "last_price": 46.96,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CTAS",
-    "last_price": 198.47,
+    "last_price": 198.45,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CTSH",
-    "last_price": 56.54,
+    "last_price": 56.77,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CVS",
-    "last_price": 87.86,
+    "last_price": 87.78,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "CVX",
-    "last_price": 211.24,
+    "last_price": 211.37,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DASH",
-    "last_price": 189.07,
+    "last_price": 189.12,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DDOG",
-    "last_price": 277.64,
+    "last_price": 277.58,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DE",
-    "last_price": 643.03,
+    "last_price": 642.41,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DELL",
-    "last_price": 579.54,
+    "last_price": 580.3,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DHR",
-    "last_price": 212.92,
+    "last_price": 212.62,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DIS",
-    "last_price": 105.86,
+    "last_price": 105.9,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DUK",
-    "last_price": 114.99,
+    "last_price": 115.05,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "DXCM",
-    "last_price": 83.88,
+    "last_price": 83.71,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-10-08 16:11:20.000000+00:00"
+    "last_updated": "2026-10-08 16:16:06.000000+00:00"
   },
   {
     "ticker": "EMR",
-    "last_price": 158.06,
+    "last_price": 158.16,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "EXC",
-    "last_price": 41.22,
+    "last_price": 41.24,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "FANG",
-    "last_price": 190.4,
+    "last_price": 190.79,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "FAST",
-    "last_price": 50.24,
+    "last_price": 50.2,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "FDX",
-    "last_price": 287.19,
+    "last_price": 287.12,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "FER",
-    "last_price": 50.04,
+    "last_price": 50.08,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
@@ -331,52 +331,52 @@
   },
   {
     "ticker": "GD",
-    "last_price": 326.29,
+    "last_price": 326.17,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GE",
-    "last_price": 302.18,
+    "last_price": 302.08,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GEHC",
-    "last_price": 63.53,
+    "last_price": 63.48,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GEV",
-    "last_price": 1010.95,
+    "last_price": 1009.82,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GILD",
-    "last_price": 145.07,
+    "last_price": 144.81,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GM",
-    "last_price": 81.11,
+    "last_price": 81.08,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GOOG",
-    "last_price": 345.83,
+    "last_price": 345.98,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GOOGL",
-    "last_price": 349.05,
+    "last_price": 349.14,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "GS",
-    "last_price": 881.67,
+    "last_price": 882.48,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "HD",
-    "last_price": 290.51,
+    "last_price": 290.68,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
@@ -386,372 +386,372 @@
   },
   {
     "ticker": "IBM",
-    "last_price": 219.6,
+    "last_price": 219.99,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "IDXX",
-    "last_price": 510.11,
+    "last_price": 509.8,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "INSM",
-    "last_price": 97.07,
+    "last_price": 97.22,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "INTC",
-    "last_price": 109.32,
+    "last_price": 109.12,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "INTU",
-    "last_price": 294.78,
+    "last_price": 295.1,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ISRG",
-    "last_price": 414.86,
+    "last_price": 414.57,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "JNJ",
-    "last_price": 252.98,
+    "last_price": 252.71,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "JPM",
-    "last_price": 327.25,
+    "last_price": 327.51,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "KDP",
-    "last_price": 30.83,
+    "last_price": 30.81,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "KHC",
-    "last_price": 22.06,
+    "last_price": 22.01,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "KLAC",
-    "last_price": 200.35,
+    "last_price": 200.48,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "KO",
-    "last_price": 87.05,
+    "last_price": 87.03,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "LIN",
-    "last_price": 481.64,
+    "last_price": 481.78,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "LITE",
-    "last_price": 1068.2,
+    "last_price": 1068.82,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "LLY",
-    "last_price": 1139.31,
+    "last_price": 1139.55,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "LMT",
-    "last_price": 503.07,
+    "last_price": 502.86,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "LOW",
-    "last_price": 185.05,
+    "last_price": 185.17,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "LRCX",
-    "last_price": 327.82,
+    "last_price": 328.17,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MA",
-    "last_price": 575.33,
+    "last_price": 575.83,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MAR",
-    "last_price": 360.62,
+    "last_price": 360.64,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MCD",
-    "last_price": 234.13,
+    "last_price": 234.04,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MCHP",
-    "last_price": 76.38,
+    "last_price": 76.36,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MDLZ",
-    "last_price": 59.9,
+    "last_price": 59.87,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MDT",
-    "last_price": 87.39,
+    "last_price": 87.23,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MELI",
-    "last_price": 1851.57,
+    "last_price": 1852.09,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "META",
-    "last_price": 720.0,
+    "last_price": 719.77,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MMM",
-    "last_price": 162.01,
+    "last_price": 161.95,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MNST",
-    "last_price": 43.66,
+    "last_price": 43.6,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MO",
-    "last_price": 71.25,
+    "last_price": 71.35,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MPWR",
-    "last_price": 1408.97,
+    "last_price": 1408.18,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MRK",
-    "last_price": 139.12,
+    "last_price": 138.96,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MRVL",
-    "last_price": 277.12,
+    "last_price": 277.1,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MS",
-    "last_price": 187.12,
+    "last_price": 187.46,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MSFT",
-    "last_price": 529.8,
+    "last_price": 530.11,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MSTR",
-    "last_price": 149.86,
+    "last_price": 149.36,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "MU",
-    "last_price": 1065.98,
+    "last_price": 1067.1,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "NEE",
-    "last_price": 76.61,
+    "last_price": 76.62,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "NFLX",
-    "last_price": 71.09,
+    "last_price": 71.2,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "NKE",
-    "last_price": 34.25,
+    "last_price": 34.24,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "NOW",
-    "last_price": 136.24,
+    "last_price": 136.4,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "NVDA",
-    "last_price": 235.3,
+    "last_price": 235.16,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "NXPI",
-    "last_price": 229.32,
+    "last_price": 229.35,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ODFL",
-    "last_price": 179.62,
+    "last_price": 179.46,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ORCL",
-    "last_price": 141.05,
+    "last_price": 141.19,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ORLY",
-    "last_price": 85.65,
+    "last_price": 85.68,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PANW",
-    "last_price": 402.9,
+    "last_price": 402.59,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PAYX",
-    "last_price": 102.23,
+    "last_price": 102.33,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PCAR",
-    "last_price": 107.07,
+    "last_price": 107.13,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PDD",
-    "last_price": 78.38,
+    "last_price": 78.46,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PEP",
-    "last_price": 125.13,
+    "last_price": 125.32,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PFE",
-    "last_price": 27.54,
+    "last_price": 27.48,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PG",
-    "last_price": 148.87,
+    "last_price": 148.92,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PLTR",
-    "last_price": 198.53,
+    "last_price": 197.6,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PM",
-    "last_price": 200.18,
+    "last_price": 200.4,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "PYPL",
-    "last_price": 54.42,
+    "last_price": 54.48,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "QCOM",
-    "last_price": 173.6,
+    "last_price": 173.55,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "REGN",
-    "last_price": 727.54,
+    "last_price": 726.89,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ROP",
-    "last_price": 357.14,
+    "last_price": 357.55,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ROST",
-    "last_price": 225.5,
+    "last_price": 225.63,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "RTX",
-    "last_price": 182.08,
+    "last_price": 182.15,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SBUX",
-    "last_price": 88.73,
+    "last_price": 88.78,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SCHW",
-    "last_price": 95.71,
+    "last_price": 95.78,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SHOP",
-    "last_price": 166.71,
+    "last_price": 166.5,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SHW",
-    "last_price": 315.92,
+    "last_price": 316.07,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SNDK",
-    "last_price": 1637.16,
+    "last_price": 1635.7,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SNPS",
-    "last_price": 507.7,
+    "last_price": 507.82,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "SO",
-    "last_price": 85.09,
+    "last_price": 85.1,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "STX",
-    "last_price": 787.45,
+    "last_price": 788.0,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "T",
-    "last_price": 24.54,
+    "last_price": 24.55,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "TMO",
-    "last_price": 639.47,
+    "last_price": 638.43,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "TMUS",
-    "last_price": 169.53,
+    "last_price": 169.66,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "TRI",
-    "last_price": 97.92,
+    "last_price": 98.04,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "TRV",
-    "last_price": 365.77,
+    "last_price": 365.88,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "TSLA",
-    "last_price": 372.42,
+    "last_price": 371.81,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
@@ -761,47 +761,47 @@
   },
   {
     "ticker": "TXN",
-    "last_price": 288.52,
+    "last_price": 288.7,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "UBER",
-    "last_price": 68.76,
+    "last_price": 68.79,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "UNH",
-    "last_price": 371.59,
+    "last_price": 371.78,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "UNP",
-    "last_price": 275.07,
+    "last_price": 274.95,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "UPS",
-    "last_price": 93.14,
+    "last_price": 93.12,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "USB",
-    "last_price": 55.99,
+    "last_price": 56.03,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "V",
-    "last_price": 375.82,
+    "last_price": 376.05,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "VRSK",
-    "last_price": 172.18,
+    "last_price": 172.19,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "VRTX",
-    "last_price": 499.54,
+    "last_price": 499.51,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
@@ -816,37 +816,37 @@
   },
   {
     "ticker": "WDAY",
-    "last_price": 184.65,
+    "last_price": 184.64,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "WDC",
-    "last_price": 401.8,
+    "last_price": 399.8,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "WFC",
-    "last_price": 80.12,
+    "last_price": 80.24,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "WMT",
-    "last_price": 110.15,
+    "last_price": 110.27,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "XEL",
-    "last_price": 72.67,
+    "last_price": 72.71,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "XOM",
-    "last_price": 168.41,
+    "last_price": 168.72,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   },
   {
     "ticker": "ZS",
-    "last_price": 217.83,
+    "last_price": 217.76,
     "last_updated": "2026-10-08 20:00:00.000000+00:00"
   }
 ]
