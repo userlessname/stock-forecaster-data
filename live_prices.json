@@ -16,7 +16,7 @@
   },
   {
     "ticker": "ABT",
-    "last_price": 104.88,
+    "last_price": 104.89,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -146,17 +146,17 @@
   },
   {
     "ticker": "BNY",
-    "last_price": 143.24,
+    "last_price": 143.3,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
     "ticker": "BRK-B",
-    "last_price": 532.14,
+    "last_price": 532.02,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
     "ticker": "C",
-    "last_price": 124.25,
+    "last_price": 124.26,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -246,7 +246,7 @@
   },
   {
     "ticker": "CVX",
-    "last_price": 224.98,
+    "last_price": 224.99,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -276,12 +276,12 @@
   },
   {
     "ticker": "DIS",
-    "last_price": 110.55,
+    "last_price": 110.59,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
     "ticker": "DUK",
-    "last_price": 121.46,
+    "last_price": 121.47,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -292,11 +292,11 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-10-16 20:15:54.000000+00:00"
+    "last_updated": "2026-10-16 20:20:44.000000+00:00"
   },
   {
     "ticker": "EMR",
-    "last_price": 161.46,
+    "last_price": 161.47,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -466,7 +466,7 @@
   },
   {
     "ticker": "LOW",
-    "last_price": 197.31,
+    "last_price": 197.38,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -536,7 +536,7 @@
   },
   {
     "ticker": "MRK",
-    "last_price": 145.96,
+    "last_price": 145.95,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -546,7 +546,7 @@
   },
   {
     "ticker": "MS",
-    "last_price": 180.54,
+    "last_price": 180.57,
     "last_updated": "2026-10-16 20:00:00.000000+00:00"
   },
   {
@@ -812,7 +812,7 @@
   {
     "ticker": "WBD",
     "last_price": 30.95,
-    "last_updated": "2026-10-16 20:15:54.000000+00:00"
+    "last_updated": "2026-10-16 20:20:44.000000+00:00"
   },
   {
     "ticker": "WDAY",
