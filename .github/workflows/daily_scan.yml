@@ -259,7 +259,7 @@ jobs:
         env:
           HF_HUB_DISABLE_SYMLINKS_WARNING: '1'
           HF_HUB_DISABLE_IMPLICIT_TOKEN: '1'
-          HF_HUB_ENABLE_HF_TRANSFER: '1'  # Activates the Rust hf-transfer parallel downloader
+          HF_XET_HIGH_PERFORMANCE: '1'    # Activates high-performance Xet/Rust parallel transfer
           HF_HUB_OFFLINE: '1'             # Isolates scan execution from HuggingFace outages/network queries
           PYTHONUNBUFFERED: '1'
           # Dynamic thread pool allocation based on detected CPU cores
@@ -376,3 +376,55 @@ jobs:
           # branch history with it. Additive publishing keeps a partial export partial.
           force_orphan: false
           keep_files: true
+
+      - name: Prune Excluded or Delisted Tickers from gh-pages
+        if: steps.check.outputs.should_run == 'true'
+        env:
+          PRIVATE_REPO_PAT: ${{ secrets.PRIVATE_REPO_PAT }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, pathlib, shutil, subprocess
+
+          search_path = pathlib.Path('backend/api/search.json')
+          if not search_path.is_file():
+              raise SystemExit(0)
+          active_tickers = {
+              row.get('ticker', '').strip().upper()
+              for row in json.loads(search_path.read_text(encoding='utf-8'))
+              if isinstance(row, dict) and row.get('ticker')
+          }
+          if len(active_tickers) < 100:
+              print(f'Skipping prune: active_tickers count ({len(active_tickers)}) below safety floor 100.')
+              raise SystemExit(0)
+
+          pat = os.environ['PRIVATE_REPO_PAT']
+          repo_url = f'https://x-access-token:{pat}@github.com/userlessname/stock-forecaster-data.git'
+          work_dir = pathlib.Path('/tmp/gh-pages-prune')
+          if work_dir.exists():
+              shutil.rmtree(work_dir)
+          subprocess.run(['git', 'clone', '--depth', '1', '--branch', 'gh-pages', repo_url, str(work_dir)], check=True)
+
+          removed = []
+          for subdir in ('forecast', 'backtest'):
+              target_dir = work_dir / subdir
+              if not target_dir.is_dir():
+                  continue
+              for f in sorted(target_dir.glob('*.json')):
+                  stem = f.stem
+                  base_ticker = stem.rsplit('_', 1)[0].upper() if '_' in stem else stem.upper()
+                  if base_ticker and base_ticker not in active_tickers:
+                      f.unlink()
+                      removed.append(f'{subdir}/{f.name}')
+
+          if not removed:
+              print('No stale delisted/excluded ticker files found on gh-pages.')
+              raise SystemExit(0)
+
+          print(f'Pruning {len(removed)} stale file(s) from gh-pages: {removed[:20]}')
+          subprocess.run(['git', 'config', 'user.name', 'github-actions[bot]'], cwd=work_dir, check=True)
+          subprocess.run(['git', 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com'], cwd=work_dir, check=True)
+          subprocess.run(['git', 'add', '-A', 'forecast', 'backtest'], cwd=work_dir, check=True)
+          subprocess.run(['git', 'commit', '-m', f'chore(cdn): prune {len(removed)} stale excluded/delisted ticker file(s)'], cwd=work_dir, check=True)
+          subprocess.run(['git', 'push', 'origin', 'gh-pages'], cwd=work_dir, check=True)
+          PY
