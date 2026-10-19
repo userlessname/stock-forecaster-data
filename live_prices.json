@@ -6,7 +6,7 @@
   },
   {
     "ticker": "ABBV",
-    "last_price": 282.78,
+    "last_price": 282.68,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -146,7 +146,7 @@
   },
   {
     "ticker": "BNY",
-    "last_price": 142.41,
+    "last_price": 142.44,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -156,7 +156,7 @@
   },
   {
     "ticker": "C",
-    "last_price": 121.71,
+    "last_price": 121.69,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -246,7 +246,7 @@
   },
   {
     "ticker": "CVX",
-    "last_price": 224.45,
+    "last_price": 224.37,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -271,12 +271,12 @@
   },
   {
     "ticker": "DHR",
-    "last_price": 224.38,
+    "last_price": 224.43,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
     "ticker": "DIS",
-    "last_price": 109.56,
+    "last_price": 109.59,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -292,7 +292,7 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-10-19 20:16:06.000000+00:00"
+    "last_updated": "2026-10-19 20:21:16.000000+00:00"
   },
   {
     "ticker": "EMR",
@@ -466,7 +466,7 @@
   },
   {
     "ticker": "LOW",
-    "last_price": 195.82,
+    "last_price": 195.92,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -516,7 +516,7 @@
   },
   {
     "ticker": "MMM",
-    "last_price": 162.08,
+    "last_price": 162.01,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -526,7 +526,7 @@
   },
   {
     "ticker": "MO",
-    "last_price": 74.06,
+    "last_price": 74.09,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
@@ -812,7 +812,7 @@
   {
     "ticker": "WBD",
     "last_price": 30.95,
-    "last_updated": "2026-10-19 20:16:06.000000+00:00"
+    "last_updated": "2026-10-19 20:21:16.000000+00:00"
   },
   {
     "ticker": "WDAY",
@@ -841,7 +841,7 @@
   },
   {
     "ticker": "XOM",
-    "last_price": 178.29,
+    "last_price": 178.28,
     "last_updated": "2026-10-19 20:00:00.000000+00:00"
   },
   {
