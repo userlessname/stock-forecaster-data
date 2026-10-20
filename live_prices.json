@@ -6,7 +6,7 @@
   },
   {
     "ticker": "ABBV",
-    "last_price": 288.98,
+    "last_price": 289.08,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -111,7 +111,7 @@
   },
   {
     "ticker": "AXP",
-    "last_price": 318.45,
+    "last_price": 318.34,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -156,7 +156,7 @@
   },
   {
     "ticker": "C",
-    "last_price": 122.53,
+    "last_price": 122.51,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -266,17 +266,17 @@
   },
   {
     "ticker": "DELL",
-    "last_price": 461.77,
+    "last_price": 461.56,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
     "ticker": "DHR",
-    "last_price": 224.01,
+    "last_price": 224.24,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
     "ticker": "DIS",
-    "last_price": 111.66,
+    "last_price": 111.67,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -292,11 +292,11 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-10-20 20:16:29.000000+00:00"
+    "last_updated": "2026-10-20 20:20:58.000000+00:00"
   },
   {
     "ticker": "EMR",
-    "last_price": 160.51,
+    "last_price": 160.46,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -466,7 +466,7 @@
   },
   {
     "ticker": "LOW",
-    "last_price": 198.57,
+    "last_price": 198.53,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -516,7 +516,7 @@
   },
   {
     "ticker": "MMM",
-    "last_price": 171.43,
+    "last_price": 171.37,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -526,7 +526,7 @@
   },
   {
     "ticker": "MO",
-    "last_price": 74.65,
+    "last_price": 74.64,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
@@ -812,7 +812,7 @@
   {
     "ticker": "WBD",
     "last_price": 30.95,
-    "last_updated": "2026-10-20 20:16:29.000000+00:00"
+    "last_updated": "2026-10-20 20:20:58.000000+00:00"
   },
   {
     "ticker": "WDAY",
@@ -826,7 +826,7 @@
   },
   {
     "ticker": "WFC",
-    "last_price": 82.19,
+    "last_price": 82.2,
     "last_updated": "2026-10-20 20:00:00.000000+00:00"
   },
   {
