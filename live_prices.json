@@ -156,97 +156,97 @@
   },
   {
     "ticker": "C",
-    "last_price": 122.64,
+    "last_price": 121.99,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CAT",
-    "last_price": 622.75,
+    "last_price": 621.5,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CCEP",
-    "last_price": 113.22,
+    "last_price": 113.36,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CDNS",
-    "last_price": 327.89,
+    "last_price": 326.68,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CEG",
-    "last_price": 262.38,
+    "last_price": 261.15,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CHTR",
-    "last_price": 111.49,
+    "last_price": 110.39,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CMCSA",
-    "last_price": 23.22,
+    "last_price": 23.15,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "COF",
-    "last_price": 204.85,
+    "last_price": 203.83,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "COP",
-    "last_price": 154.03,
+    "last_price": 153.48,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "COST",
-    "last_price": 1012.28,
+    "last_price": 1016.38,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CPRT",
-    "last_price": 30.13,
+    "last_price": 30.26,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CRM",
-    "last_price": 229.17,
+    "last_price": 228.35,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CRWD",
-    "last_price": 250.43,
+    "last_price": 250.87,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CSCO",
-    "last_price": 104.51,
+    "last_price": 104.07,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CSX",
-    "last_price": 51.99,
+    "last_price": 51.94,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CTAS",
-    "last_price": 219.82,
+    "last_price": 219.99,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CTSH",
-    "last_price": 65.11,
+    "last_price": 65.5,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CVS",
-    "last_price": 90.25,
+    "last_price": 90.15,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "CVX",
-    "last_price": 235.52,
+    "last_price": 235.13,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
@@ -292,7 +292,7 @@
   {
     "ticker": "EA",
     "last_price": 209.7,
-    "last_updated": "2026-10-30 20:25:51.000000+00:00"
+    "last_updated": "2026-10-30 20:30:48.000000+00:00"
   },
   {
     "ticker": "EMR",
@@ -686,42 +686,42 @@
   },
   {
     "ticker": "SBUX",
-    "last_price": 103.67,
+    "last_price": 103.92,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "SCHW",
-    "last_price": 88.05,
+    "last_price": 87.86,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "SHOP",
-    "last_price": 157.49,
+    "last_price": 156.84,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "SHW",
-    "last_price": 332.61,
+    "last_price": 331.96,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "SNDK",
-    "last_price": 1150.89,
+    "last_price": 1140.95,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "SNPS",
-    "last_price": 467.61,
+    "last_price": 467.4,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "SO",
-    "last_price": 93.71,
+    "last_price": 93.61,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
     "ticker": "STX",
-    "last_price": 644.58,
+    "last_price": 635.6,
     "last_updated": "2026-10-30 20:00:00.000000+00:00"
   },
   {
@@ -812,7 +812,7 @@
   {
     "ticker": "WBD",
     "last_price": 30.95,
-    "last_updated": "2026-10-30 20:25:51.000000+00:00"
+    "last_updated": "2026-10-30 20:30:48.000000+00:00"
   },
   {
     "ticker": "WDAY",
