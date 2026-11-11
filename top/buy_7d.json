@@ -1,1 +1,1 @@
-[{"ticker":"T","name":"AT&T Inc.","last_price":22.024999618530273,"signal":"Buy","confidence":"42%"},{"ticker":"AXON","name":"Axon Enterprise, Inc.","last_price":315.44000244140625,"signal":"Buy","confidence":"40%"},{"ticker":"INTC","name":"Intel Corporation","last_price":63.3849983215332,"signal":"Buy","confidence":"40%"}]
+[{"ticker":"AXON","name":"Axon Enterprise, Inc.","last_price":316.489990234375,"signal":"Buy","confidence":"41%"},{"ticker":"INTC","name":"Intel Corporation","last_price":62.81999969482422,"signal":"Buy","confidence":"41%"}]
